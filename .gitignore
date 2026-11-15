@@ -1,0 +1,9 @@
+node_modules/
+data/
+*.log
+*.exe
+*.zip
+dist/
+build/
+ffmpeg_fix/
+nohup.out

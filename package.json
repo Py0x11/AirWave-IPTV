@@ -1,0 +1,42 @@
+{
+  "name": "airwave-tv",
+  "version": "0.1.0",
+  "description": "AirWave TV - live IPTV streamer (web beta)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "electron": "electron .",
+    "dist": "electron-builder build"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "public/**/*",
+    "lib/**/*",
+    "server.js",
+    "package.json"
+  ],
+  "build": {
+    "appId": "airwave.tv",
+    "productName": "AirWave-TV",
+    "files": [
+      "public/**/*",
+      "lib/**/*",
+      "server.js",
+      "package.json",
+      "node_modules/**/*"
+    ],
+    "defaultArch": "x64",
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AirWave TV Beta</title>
+    <style>
+        :root {
+            --primary: #e50914;
+            --dark: #000;
+            --text: #fff;
+            --muted: #808080;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        /* Netflix-style header */
+        .header {
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #333;
+            background: linear-gradient(90deg, rgba(0,0,0,0.8), rgba(0,0,0,0.5));
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            width: 180px;
+            height: 72px;
+            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 80'><rect width='200' height='80' fill='%23e50914'/><path d='M25 15h50l25 35h25l-25 35h-50l-25-35h25l25-35z' fill='%23fff'/></svg>") no-repeat center/contain;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .title {
+            font-size: 22px;
+            font-weight: 300;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--primary);
+        }
+        
+        .status {
+            font-size: 12px;
+            color: var(--muted);
+            letter-spacing: 2px;
+        }
+        
+        /* Main content */
+        .content {
+            width: 100%;
+            max-width: 1200px;
+            padding: 100px 40px 40px;
+            text-align: center;
+        }
+        
+        .hero-banner {
+            position: relative;
+            margin: 0 auto 40px;
+            max-width: 900px;
+        }
+        
+        .channel-card {
+            background: #111;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            display: inline-block;
+            transition: transform 0.2s, border-color 0.2s;
+            cursor: pointer;
+            width: 200px;
+        }
+        
+        .channel-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+        
+        .channel-name {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 180px;
+        }
+        
+        .channel-info {
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+        
+        .channel-preview {
+            height: 80px;
+            background: #000;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .preview-play {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 20px solid var(--primary);
+            margin: 20px auto;
+        }
+        
+        .controls {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: opacity 0.2s;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        .btn:focus {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+        
+        /* Minimal footer */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 10px 40px;
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo" id="logo" onclick="minimizeApp()" aria-label="Minimize"></div>
+        <span class="title">AirWave TV Beta</span>
+        <div class="status" id="status">Initializing...</div>
+    </header>
+    
+    <main class="content">
+        <div class="hero-banner" id="heroBanner">
+            <div class="channel-card active" data-channel="CartoonNetworkAsia.sg">
+                <div class="channel-preview">
+                    <div class="preview-play"></div>
+                </div>
+                <div class="channel-name">Cartoon Network Asia</div>
+                <div class="channel-info">Live · HD · English/Malay/Chinese/Tamil</div>
+            </div>
+            
+            <div class="channel-card" data-channel="TizTV">
+                <div class="channel-preview" style="background: #1a1a1a;">
+                    <div class="preview-play"></div>
+                </div>
+                <div class="channel-name">TizTV</div>
+                <div class="channel-info">Live · SD · Arabic/English</div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" id="openListBtn">Live TV List</button>
+            <button class="btn" id="refreshBtn">Refresh</button>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        AirWave TV Beta • IPTV Streamer • Built for Stability
+    </footer>
+    
+    <script>
+        // Check if running as HTA application
+        var isHTA = window.external && window.external.SetError;
+        
+        // HTA specific functions
+        function minimizeApp() {
+            if (isHTA) {
+                window.minimize();
+            } else {
+                // Fallback for browser
+                window.close();
+            }
+        }
+        
+        // Initialize app
+        document.getElementById('status').textContent = 'Loading channels...';
+        
+        // Simulate channel loading
+        setTimeout(() => {
+            document.getElementById('status').textContent = '9522 channels | 14494 streams ready';
+        }, 1500);
+        
+        // Button handlers
+        document.getElementById('openListBtn').onclick = () => {
+            alert('Live TV List would open here\n\nChannels: 9522\nStreams: 14494\n\nHero: CartoonNetworkAsia.sg\n\nFeatures:\n- Live TV list replacing Top 10\n- Search early-exit fixed\n- Netflix logo variant\n- Continue Watching previews');
+        };
+        
+        document.getElementById('refreshBtn').onclick = () => {
+            document.getElementById('status').textContent = 'Refreshing...';
+            setTimeout(() => {
+                document.getElementById('status').textContent = '9522 channels | 14494 streams ready';
+            }, 1000);
+        };
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                minimizeApp();
+            }
+        });
+        
+        // Make header draggable for window movement
+        let isDragging = false;
+        let startY = 0;
+        let startX = 0;
+        
+        const header = document.querySelector('.header');
+        if (header) {
+            header.addEventListener('mousedown', (e) => {
+                if (e.target === header || e.target === document.querySelector('.header > *')) {
+                    isDragging = true;
+                    startY = e.clientY;
+                    startX = e.clientX;
+                }
+            });
+            
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                if (isHTA) {
+                    window.moveTo(window.screenX + e.clientX - startX, window.screenY + e.clientY - startY);
+                }
+            });
+            
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+        }
+    </script>
+</body>
+</html>

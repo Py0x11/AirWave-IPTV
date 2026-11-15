@@ -1,0 +1,21 @@
+{
+  "name": "airwave-tv",
+  "version": "0.1.0",
+  "description": "AirWave TV - live IPTV streamer (web beta)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "electron": "electron ."
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "electron": "^30.0.0",
+    "express": "^4.22.3"
+  },
+  "devDependencies": {
+    "electron-builder": "^24.13.3",
+    "electron-packager": "^17.1.2"
+  }
+}
