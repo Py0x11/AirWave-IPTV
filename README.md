@@ -2,12 +2,7 @@
 
 **AirWave TV** is a self-hosted live IPTV streaming web application. It turns a raw M3U playlist into an interactive Live TV experience — hero banner, instant channel preview, full channel grid, and HLS playback — served as a single-page app.
 
-## Live Preview
-
-The application is currently live and serving the UI:
-
 - **Local:** [http://localhost:8585](http://localhost:8585)
-- **Network (client laptops):** [http://192.168.64.4:8585](http://192.168.64.4:8585)
 
 ## Screenshots
 
@@ -25,7 +20,6 @@ The application is currently live and serving the UI:
 - Full Live TV grid with rich metadata (logos, numbers, categories)
 - Fast search with early-exit optimization
 - HLS playback via hls.js with H.264/AAC playback fixes
-- Unicode-safe M3U playlist parsing
 - Lightweight single-page backend (Express) with status/health APIs
 
 ## Tech Stack
