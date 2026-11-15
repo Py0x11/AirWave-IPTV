@@ -890,9 +890,34 @@ function bindEvents() {
   $('#btn-settings-close').addEventListener('click', closeSettings);
 }
 
+const USER_COOKIE = 'airwave_user';
+const getUserCookie = () => {
+  const parts = document.cookie ? document.cookie.split(';') : [];
+  for (const p of parts) {
+    const kv = p.trim().split('=');
+    if (kv[0] === USER_COOKIE) return decodeURIComponent(kv.slice(1).join('='));
+  }
+  return null;
+};
+const setUserCookie = (name) => { try { document.cookie = USER_COOKIE + '=' + encodeURIComponent(name) + ';path=/;max-age=31536000'; } catch (e) {} };
+const showSplash = () => { const el = $('#splash'); if (el) el.classList.remove('hidden'); };
+const hideSplash = () => { const el = $('#splash'); if (el) el.classList.add('hidden'); };
+const showLogin = () => { const el = $('#login-overlay'); if (el) el.classList.remove('hidden'); };
+const hideLogin = () => { const el = $('#login-overlay'); if (el) el.classList.add('hidden'); };
+const doLogin = () => {
+  const input = $('#netflix-name-input');
+  const name = (input && input.value ? input.value : '').trim() || 'AirWave';
+  setUserCookie(name);
+  hideLogin();
+  switchScreen('live');
+  if (S.byId.has('CartoonNetworkAsia.sg')) setHero(S.byId.get('CartoonNetworkAsia.sg'));
+  hideSplash();
+};
+
 async function init() {
   enhanceFocusables();
   bindEvents();
+  showSplash();
   const [status, ud, st] = await Promise.all([
     api('/api/status'),
     api('/api/user-data'),
@@ -911,6 +936,10 @@ async function init() {
   if (S.byId.has('CartoonNetworkAsia.sg')) {
     setHero(S.byId.get('CartoonNetworkAsia.sg'));
   }
+  if (getUserCookie()) { hideSplash(); }
+  else { showLogin(); }
 }
+
+$('#netflix-signin').addEventListener('click', doLogin);
 
 init();

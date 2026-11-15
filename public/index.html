@@ -9,6 +9,13 @@
 </head>
 <body>
 
+<div id="splash" class="splash hidden">
+  <div class="splash-inner">
+    <div id="splash-logo" class="splash-logo">AIR<span>WAVE</span></div>
+    <div class="splash-bar"><div id="splash-fill" class="splash-fill"></div></div>
+  </div>
+</div>
+
 <div id="topnav">
   <img id="logo" class="focusable" data-zone="nav" src="/assets/logos/netflix-mod-red.png" alt="AirWave TV">
   <div id="nav-list">
@@ -99,6 +106,17 @@
     <div class="set-head">Settings</div>
     <div id="settings-dialog"></div>
     <button id="btn-settings-close" class="small-btn focusable" data-zone="settings">Done</button>
+  </div>
+</div>
+
+<div id="login-overlay" class="hidden">
+  <div class="netflix-card">
+    <div id="netflix-profile-row">
+      <div id="netflix-avatar" class="netflix-avatar">A</div>
+      <div id="netflix-name" class="netflix-name">AirWave</div>
+    </div>
+    <input id="netflix-name-input" class="netflix-input" placeholder="Profile name" maxlength="24" autocomplete="off" />
+    <button id="netflix-signin" class="netflix-btn" type="button">Sign In</button>
   </div>
 </div>
 
